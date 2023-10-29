@@ -46,7 +46,7 @@ class ContactActivity : AppCompatActivity() {
             saveBt.setOnClickListener {
                 val contact = Contact(
                     // Parâmetro nomeado
-                    id = receivedContact?.id?: INVALID_CONTACT_ID, // Se for nulo, gera um novo id
+                    id = receivedContact?.id, // Se for nulo, o room vai se encarregar de gerar um id
                     name = nameEt.text.toString(),
                     address = addressEt.text.toString(),
                     phone = phoneEt.text.toString(),

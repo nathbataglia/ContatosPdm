@@ -9,7 +9,7 @@ import android.util.Log
 import br.edu.scl.ifsp.ads.contatospdm.R
 
 class ContactDaoSqLite(context: Context): ContactDao {
-    companion object {
+    companion object Constant {
         private const val CONTACT_DATABASE_FILE = "contacts"
         private const val CONTACT_TABLE = "contact"
         private const val ID_COLUMN = "id"

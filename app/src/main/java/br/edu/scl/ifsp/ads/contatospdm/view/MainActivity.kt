@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar
 import br.edu.scl.ifsp.ads.contatospdm.R
 import br.edu.scl.ifsp.ads.contatospdm.adapter.ContactAdapter
 import br.edu.scl.ifsp.ads.contatospdm.controller.ContactController
+import br.edu.scl.ifsp.ads.contatospdm.controller.ContactRoomController
 import br.edu.scl.ifsp.ads.contatospdm.databinding.ActivityMainBinding
 import br.edu.scl.ifsp.ads.contatospdm.model.Contact
 import br.edu.scl.ifsp.ads.contatospdm.model.Constant.EXTRA_CONTACT
@@ -29,13 +30,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Data source
-    private val contactList: MutableList<Contact> by lazy {
-        contactController.getContacts()
-    }
+    private val contactList: MutableList<Contact> = mutableListOf()
 
     // Controller
-    private val contactController: ContactController by lazy {
-        ContactController(this)
+    private val contactController: ContactRoomController by lazy {
+        ContactRoomController(this)
     }
 
     // Adapter
@@ -66,25 +65,12 @@ class MainActivity : AppCompatActivity() {
                 contact?.let { _contact ->
                     if (contactList.any { it.id == _contact.id }) {
                         // Edita
-                        val position = contactList.indexOfFirst { it.id == _contact.id }
-                        contactList[position] = _contact
-                        contactList.sortBy { it.name }
                         contactController.editContact(_contact)
                     }
                     else {
                         // Adiciona
-                        val newId = contactController.insertContact(_contact)
-                        val newContact = Contact(
-                            newId,
-                            _contact.name,
-                            _contact.address,
-                            _contact.phone,
-                            _contact.email,
-                        )
-                        contactList.add(newContact)
+                        contactController.insertContact(_contact)
                     }
-                    contactList.sortBy { it.name }
-                    contactAdapter.notifyDataSetChanged()
                 }
             }
         }
@@ -98,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         registerForContextMenu(amb.contatosLv)
+        contactController.getContacts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -129,9 +116,7 @@ class MainActivity : AppCompatActivity() {
 
         return when (item.itemId) {
             R.id.removeContactMi -> {
-                contactController.removeContact(contact.id)
-                contactList.removeAt(position)
-                contactAdapter.notifyDataSetChanged()
+                contactController.removeContact(contact)
                 Toast.makeText(this, "Contact removed.", Toast.LENGTH_SHORT).show()
                 true
             }
@@ -162,5 +147,11 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterForContextMenu(amb.contatosLv)
+    }
+
+    fun updateContactList(_contactList: MutableList<Contact>) {
+        contactList.clear()
+        contactList.addAll(_contactList)
+        contactAdapter.notifyDataSetChanged()
     }
 }
