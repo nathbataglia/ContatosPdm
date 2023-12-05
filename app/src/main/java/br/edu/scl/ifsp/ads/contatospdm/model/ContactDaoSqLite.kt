@@ -93,7 +93,7 @@ class ContactDaoSqLite(context: Context): ContactDao {
 
     private fun Contact.toContentValues(): ContentValues = with(ContentValues()) {
         put(NAME_COLUMN, name)
-        put(ADDRESS_COLUMN, address)
+        put(ADDRESS_COLUMN, adress)
         put(PHONE_COLUMN, phone)
         put(EMAIL_COLUMN, email)
         this

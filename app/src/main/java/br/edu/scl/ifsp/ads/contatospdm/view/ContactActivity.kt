@@ -36,7 +36,7 @@ class ContactActivity : AppCompatActivity() {
                     saveBt.visibility = View.GONE
                 }
                 nameEt.setText(_receivedContact.name)
-                addressEt.setText(_receivedContact.address)
+                addressEt.setText(_receivedContact.adress)
                 phoneEt.setText(_receivedContact.phone)
                 emailEt.setText(_receivedContact.email)
             }
@@ -48,7 +48,7 @@ class ContactActivity : AppCompatActivity() {
                     // Parâmetro nomeado
                     id = receivedContact?.id, // Se for nulo, o room vai se encarregar de gerar um id
                     name = nameEt.text.toString(),
-                    address = addressEt.text.toString(),
+                    adress = addressEt.text.toString(),
                     phone = phoneEt.text.toString(),
                     email = emailEt.text.toString()
                 )
